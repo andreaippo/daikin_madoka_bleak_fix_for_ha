@@ -74,8 +74,8 @@ external_components:
   - source:
       type: git
       url: https://github.com/dasimon135/daikin_madoka
-      ref: v2.1.1
-      path: esphome_components
+      ref: v2.2.0
+      path: esphome/components
     components: [madoka]
 
 esp32_ble:
@@ -138,8 +138,8 @@ external_components:
   - source:
       type: git
       url: https://github.com/dasimon135/daikin_madoka
-      ref: v2.1.1        # replace with latest tag
-      path: esphome_components
+      ref: v2.2.0        # replace with latest tag
+      path: esphome/components
     components: [madoka]
 ```
 

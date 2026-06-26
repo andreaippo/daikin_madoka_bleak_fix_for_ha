@@ -10,6 +10,7 @@
       "user": {
         "data": {
           "address": "BRC1H Bluetooth MAC address",
+          "friendly_name": "Friendly name (optional, e.g. 'Living room')",
           "device": "Bluetooth adapter name (run 'hcitool dev' to list adapters)",
           "force_update": "Force disconnect from BRC1H before connecting (recommended)"
         },

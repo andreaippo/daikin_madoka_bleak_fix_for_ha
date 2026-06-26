@@ -15,7 +15,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.core import HomeAssistant
 
 from . import config_flow  # noqa: F401
-from .const import CONTROLLERS, DOMAIN, CONF_MAC
+from .const import CONTROLLERS, DOMAIN, CONF_MAC, CONF_FRIENDLY_NAME
 
 PARALLEL_UPDATES = 0
 MIN_TIME_BETWEEN_UPDATES = timedelta(seconds=60)
@@ -31,6 +31,7 @@ CONFIG_SCHEMA = vol.Schema(
             DOMAIN: vol.Schema(
                 {
                     vol.Required(CONF_MAC): cv.string,
+                    vol.Optional(CONF_FRIENDLY_NAME, default=""): cv.string,
                     vol.Optional(CONF_FORCE_UPDATE, default=True): bool,
                     vol.Optional(CONF_DEVICE, default="hci0"): cv.string,
                 }
@@ -51,6 +52,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up a single Madoka thermostat from a config entry."""
     mac = entry.data[CONF_MAC]
     adapter = entry.data.get(CONF_DEVICE, "hci0")
+    friendly_name = entry.data.get(CONF_FRIENDLY_NAME) or None
 
     if entry.data.get(CONF_FORCE_UPDATE, True):
         try:
@@ -58,7 +60,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         except Exception:
             _LOGGER.debug("Forced disconnect failed for %s, skipping...", mac)
 
-    controller = Controller(mac, adapter=adapter)
+    controller = Controller(mac, adapter=adapter, hass=hass, name=friendly_name)
 
     try:
         _LOGGER.info("Connecting to Madoka device: %s", mac)
